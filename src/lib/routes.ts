@@ -4,7 +4,7 @@ these routes do not require authentication.
     @type {string[]}
 */
 
-export const publicRoutes = ["/"];
+export const publicRoutes = ["/login"];
 
 /*
 An array of routes that are use for authentication.
