@@ -4,14 +4,20 @@ import admin from "firebase-admin";
 
 export async function POST(req: Request) {
   const { prompt, chatId, model, session } = await req.json();
-  console.log(prompt, chatId, model, session);
 
-  if (!prompt) {
-    return Response.json(null, { status: 400 });
+  if (!prompt || !chatId || !session?.user?.email) {
+    return new Response("Bad request", { status: 400 });
   }
 
-  if (!chatId) {
-    return Response.json(null, { status: 400 });
+  const userEmail = session?.user?.email;
+  const useDocRef = adminDb.collection("users").doc(userEmail);
+  const userDoc = await useDocRef.get();
+
+  if (!userDoc.exists) {
+    await useDocRef.set({
+      email: userEmail,
+      createdAt: admin.firestore.Timestamp.now(),
+    });
   }
 
   const response = await query(prompt, chatId, model);
@@ -34,5 +40,5 @@ export async function POST(req: Request) {
     .collection("messages")
     .add(message);
 
-  return Response.json({ message });
+  return new Response(JSON.stringify({ message }), { status: 200 });
 }

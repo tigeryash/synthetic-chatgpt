@@ -1,7 +1,7 @@
 "use client";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { db } from "../../firebase";
 import toast from "react-hot-toast";
 import useSWR from "swr";
@@ -10,10 +10,18 @@ import { ArrowUpIcon } from "@heroicons/react/20/solid";
 const ChatInput = ({ chatId }: { chatId: string }) => {
   const { data: session } = useSession();
   const [prompt, setPrompt] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { data: model } = useSWR("model", {
     fallbackData: "gpt-3.5-turbo",
   });
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      formRef.current?.requestSubmit();
+    }
+  };
 
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,6 +74,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
   return (
     <div className=" text-gray-400  text-sm w-full flex justify-center">
       <form
+        ref={formRef}
         onSubmit={sendMessage}
         className="relative stretch mx-2 flex flex-row gap-3 lg:mx-auto lg:max-w-2xl xl:max-w-3xl overflow-hidden w-full flex-grow
          border dark:text-white rounded-2xl [&:has(textarea:focus)]:border-token-border-xheavy
@@ -74,6 +83,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
+          onKeyDown={(e) => handleKeyDown(e)}
           placeholder="Message ChatGPT..."
           style={{ overflowY: "hidden" }}
           className=" m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 

@@ -1,12 +1,13 @@
 "use client";
 import NewChat from "./new-chat";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, orderBy, query } from "firebase/firestore";
+import { collection, doc, orderBy, query, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { signOut, useSession } from "next-auth/react";
 import ChatRow from "./chat-row";
 import { useMediaQuery } from "react-responsive";
 import { useMenuStore } from "@/stores/menustore";
+import { useEffect } from "react";
 
 const SideBar = () => {
   const { data: session, status } = useSession();
