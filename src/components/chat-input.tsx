@@ -71,8 +71,9 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
       toast.success("ChatGPT has responded!", { id: notification });
     });
   };
+
   return (
-    <div className=" text-gray-400  text-sm w-full flex justify-center">
+    <div className="text-gray-400 text-sm w-full flex justify-center">
       <form
         ref={formRef}
         onSubmit={sendMessage}
@@ -86,13 +87,14 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
           onKeyDown={handleKeyDown}
           placeholder="Message ChatGPT..."
           style={{ overflowY: "hidden" }}
-          className=" m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 
-          dark:bg-transparent  pr-10 md:py-3.5 md:pr-12 max-h-[44px] 
-           placeholder-black/50 dark:placeholder-white/50 pl-4 md:pl-6v
+          className="m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 
+          dark:bg-transparent pr-10 md:py-3.5 md:pr-12 max-h-[44px] 
+           placeholder-black/50 dark:placeholder-white/50 pl-4 
           py-[10px] md:max-h-[52px] md:pl-6 text-lg"
         />
 
         <button
+          type="submit"
           disabled={!prompt || !session}
           className="absolute bottom-1.5 right-2 rounded-lg border border-black bg-black p-0.5
            text-black transition-colors enabled:bg-white disabled:text-gray-400 disabled:opacity-10
