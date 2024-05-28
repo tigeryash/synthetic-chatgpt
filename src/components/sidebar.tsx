@@ -7,7 +7,6 @@ import { signOut, useSession } from "next-auth/react";
 import ChatRow from "./chat-row";
 import { useMediaQuery } from "react-responsive";
 import { useMenuStore } from "@/stores/menustore";
-import { useEffect } from "react";
 
 const SideBar = () => {
   const { data: session, status } = useSession();

@@ -83,7 +83,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          onKeyDown={(e) => handleKeyDown(e)}
+          onKeyDown={handleKeyDown}
           placeholder="Message ChatGPT..."
           style={{ overflowY: "hidden" }}
           className=" m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 
