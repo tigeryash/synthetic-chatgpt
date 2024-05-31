@@ -10,17 +10,39 @@ export async function POST(req: Request) {
   }
 
   const userEmail = session?.user?.email;
-  const useDocRef = adminDb.collection("users").doc(userEmail);
-  const userDoc = await useDocRef.get();
+  const userDocRef = adminDb.collection("users").doc(userEmail);
+  const userDoc = await userDocRef.get();
 
   if (!userDoc.exists) {
-    await useDocRef.set({
+    await userDocRef.set({
       email: userEmail,
       createdAt: admin.firestore.Timestamp.now(),
     });
   }
 
-  const response = await query(prompt, chatId, model);
+  // Fetch the audience and problem from Firestore
+  const chatDocRef = userDocRef.collection("chats").doc(chatId);
+  const chatDoc = await chatDocRef.get();
+
+  if (!chatDoc.exists) {
+    return new Response("Chat not found", { status: 404 });
+  }
+
+  const { audience, problem } = chatDoc.data() as {
+    audience: string;
+    problem: string;
+  };
+
+  if (!audience || !problem) {
+    return new Response("Audience and problem context missing", {
+      status: 400,
+    });
+  }
+
+  // Include audience and problem in the prompt
+  const contextPrompt = `You are an interviewer. The audience is ${audience}. The problem to discuss is ${problem}. Continue the conversation considering this context. ${prompt} and keep the conversation going by asking more complex questions but limit to only 1 per response.`;
+
+  const response = await query(contextPrompt, chatId, model);
 
   const message: Message = {
     text: response?.toString() || "Unable to find answer",
@@ -34,7 +56,7 @@ export async function POST(req: Request) {
 
   await adminDb
     .collection("users")
-    .doc(session?.user?.email)
+    .doc(userEmail)
     .collection("chats")
     .doc(chatId)
     .collection("messages")

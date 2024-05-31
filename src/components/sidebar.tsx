@@ -7,6 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import ChatRow from "./chat-row";
 import { useMediaQuery } from "react-responsive";
 import { useMenuStore } from "@/stores/menustore";
+import MenuToggle from "./menu-toggle";
 
 const SideBar = () => {
   const { data: session, status } = useSession();
@@ -23,19 +24,12 @@ const SideBar = () => {
   );
 
   return (
-    <aside className="p-2 flex flex-col h-screen">
+    <aside className="relative p-2 flex flex-col min-h-screen">
       <div className="flex-1">
         <div>
-          <div className="flex w-full gap-2">
+          <div className="flex justify-between w-full px-4 py-2">
+            <MenuToggle />
             <NewChat session={session} />
-            {isMediumScreen && click && (
-              <button
-                className="border-gray-700 border chatRow flex-1"
-                onClick={() => toggleClick()}
-              >
-                Hide
-              </button>
-            )}
           </div>
 
           <div className="flex flex-col space-y-2 my-2">
@@ -51,12 +45,14 @@ const SideBar = () => {
         </div>
       </div>
       {session && (
-        <img
-          onClick={() => signOut()}
-          src={session.user?.image!}
-          alt="Profile pic"
-          className="h-12 w-12 rounded-full cursor-pointer mx-auto mb-2 hover:opacity-50"
-        />
+        <div className="sticky w-[260px] bottom-0 flex justify-center items-center">
+          <img
+            onClick={() => signOut()}
+            src={session.user?.image!}
+            alt="Profile pic"
+            className=" h-12 w-12 rounded-full cursor-pointer mb-2 hover:opacity-50"
+          />
+        </div>
       )}
     </aside>
   );

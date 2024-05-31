@@ -79,9 +79,8 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
       <form
         ref={formRef}
         onSubmit={sendMessage}
-        className="relative stretch mx-2 flex flex-row gap-3 lg:mx-auto lg:max-w-2xl xl:max-w-3xl overflow-hidden w-full flex-grow
-         border dark:text-white rounded-2xl [&:has(textarea:focus)]:border-token-border-xheavy
-          [&:has(textarea:focus)]:shadow-[0_2px_6px_rgba(0,0,0,.05)]"
+        className="relative bg-[#2f2f2f] mx-2 flex flex-row gap-3 lg:mx-auto lg:max-w-2xl xl:max-w-3xl overflow-hidden  flex-grow
+          rounded-full "
       >
         <textarea
           value={prompt}
@@ -89,20 +88,20 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
           onKeyDown={handleKeyDown}
           placeholder="Message ChatGPT..."
           style={{ overflowY: "hidden" }}
-          className="m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 
-          dark:bg-transparent pr-10 md:py-3.5 md:pr-12 max-h-[44px] 
-           placeholder-black/50 dark:placeholder-white/50 pl-4 
-          py-[10px] md:max-h-[52px] md:pl-6 text-lg"
+          className="m-0 w-full flex justify-center items-center outline-none resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 
+         pr-10 md:py-3.5 md:pr-12 max-h-[44px] 
+           placeholder-black/50  pl-4 dark:placeholder-white/50 dark:placeholder-opacity-50
+          py-[10px] md:max-h-[52px] md:pl-6  md:text-lg"
         />
 
         <button
           type="submit"
           disabled={!prompt || !session}
-          className="absolute bottom-1.5 right-2 rounded-lg border border-black bg-black p-0.5
-           text-black transition-colors enabled:bg-white disabled:text-gray-400 disabled:opacity-10
-            dark:border-white dark:bg-white dark:hover:bg-white md:bottom-3 md:right-3"
+          className="absolute bottom-[20.2%] right-[2%] sm:right-[1%]  rounded-full border border-black bg-black p-1
+           text-black transition-colors enabled:bg-white disabled:text-gray-400 disabled:bg-[#676767]
+             md:bottom-[18%] md:right-3"
         >
-          <ArrowUpIcon className="h-6 w-6 " />
+          <ArrowUpIcon className="w-4 h-4 md:h-6 md:w-6 " />
         </button>
       </form>
     </div>

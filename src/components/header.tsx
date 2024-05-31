@@ -1,33 +1,39 @@
 "use client";
-import React from "react";
+
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import MenuToggle from "./menu-toggle";
+import { useMediaQuery } from "react-responsive";
 import { useMenuStore } from "@/stores/menustore";
 
 const Header = () => {
-  const toggle = useMenuStore((state) => state.toggleClick);
+  const isMediumScreen = useMediaQuery({ query: "(max-width: 768px)" });
+  const click = useMenuStore((state) => state.click);
+
   return (
-    <header className="w-full ">
-      <div className="sticky p-2 top-0 z-10 flex w-full min-h-[40px] md:h-14 items-center justify-between border-b border-[#444444] bg-[#212121] pl-1 md:justify-start">
-        <button
-          onClick={() => toggle()}
-          type="button"
-          className="absolute bottom-0 left-0 top-0 inline-flex items-center justify-center rounded-md px-3 hover:text-token-text-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white active:opacity-50 md:hidden"
-        >
-          <img src="/menu.svg" alt="sidebar toggle" />
-        </button>
+    <header className="w-full  ">
+      <div className="p-2 top-0 z-10 flex min-h-[40px] md:h-14 items-center justify-between border-b border-[#444444] bg-[#212121] pl-1 ">
+        {isMediumScreen && <MenuToggle />}
+
         <div
           className="group flex cursor-pointer items-center gap-1 rounded-xl py-2 px-3 text-lg font-medium 
-        hover:bg-[#2f2f2f] text-white ml-auto md:ml-0 mr-auto"
+        hover:bg-[#2f2f2f] text-white md:ml-0 "
         >
-          <p className=" text-xl">
-            ChatGPT <span>3.5</span>
+          {!isMediumScreen && !click && <MenuToggle />}
+          <p className="md:pl-4 text-xl">
+            ChatGPT <span className="hidden md:visible">3.5</span>
           </p>
           <ChevronDownIcon className="h-5 w-5" />
         </div>
-        <button className=" relative border border-neutral-400  flex h-9 w-9 items-center justify-center whitespace-nowrap rounded-lg">
-          <div className="flex w-full gap-2 items-center justify-center">
-            <img src="/share.svg" className="text-white" alt="share button" />
-          </div>
+
+        <button className=" relative hover:bg-[#2f2f2f] p-1 flex md:h-9 md:w-9 items-center justify-center rounded-lg">
+          <Image
+            src="/share.svg"
+            className="w-5 h-5"
+            alt="share button"
+            width={5}
+            height={5}
+          />
         </button>
       </div>
     </header>

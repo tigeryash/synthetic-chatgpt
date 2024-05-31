@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusIcon } from "@heroicons/react/16/solid";
+import { PencilSquareIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { db } from "../../firebase";
@@ -18,13 +18,7 @@ const NewChat = ({ session }: { session: any }) => {
     router.push(`/chat/${doc.id}`);
   };
   return (
-    <div
-      onClick={createNewChat}
-      className="border-gray-700 border flex-1 chatRow"
-    >
-      <PlusIcon className="h-4 w-4" />
-      <p>New Chat</p>
-    </div>
+    <PencilSquareIcon onClick={createNewChat} className="h-6 w-6 text-white" />
   );
 };
 

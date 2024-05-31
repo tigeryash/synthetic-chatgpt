@@ -20,7 +20,7 @@ const DisplaySidebar = () => {
               animate={{ x: "100%" }}
               exit={{ x: "0%" }}
               transition={{ duration: 0.3, type: "tween" }}
-              className="bg-[#171717] max-w-xs h-screen overflow-y-auto fixed top-0 
+              className="bg-[#171717] max-w-xs h-full overflow-y-auto fixed top-0 
             right-full w-full z-50"
             >
               <SideBar />
@@ -29,9 +29,13 @@ const DisplaySidebar = () => {
         </AnimatePresence>
       )}
       {isBigScreen && (
-        <div className="bg-[#171717] max-w-xs h-screen overflow-y-auto md:min-w-[260px]">
+        <motion.div
+          className={`bg-[#171717] max-w-xs h-full overflow-y-auto md:min-w-[260px] transition-all duration-300 ease-in-out ${
+            click ? "visible" : "hidden"
+          }`}
+        >
           <SideBar />
-        </div>
+        </motion.div>
       )}
     </>
   );
